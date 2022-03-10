@@ -18,4 +18,25 @@ class HomeController extends AbstractController
     {
       return $this->render('layout.html.twig');
     }
+
+    /**
+     * @Route("/ajax/check-my-labels", name="check-my-labels",)
+     */
+    public function checkMyLabels(Request $request)
+    {
+      $my_data = $request->request->get('my_datas');
+
+      //le but est de construire un tableau d'objet
+      $result  = array();
+
+      //$row[0] = Raison sociale
+
+
+      //Pour chaque ligne de tableau
+      foreach ($my_data as $row) {
+          //création de l'entité
+      }
+
+      return $this->render('layout.html.twig');
+    }
 }
