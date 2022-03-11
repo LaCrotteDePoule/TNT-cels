@@ -65,10 +65,14 @@ var common = (function() {
 
     var checkMyLabels = function(my_spreadsheet){
       $body.find('#check-my-labels').off('click').on('click',function(){
+          var sending_type = $body.find('#sending-type option:selected').val();
+          var sending_reference = $body.find('#sending-reference').val();
+          var tnt_account = $body.find('#tnt-account option:selected').val();
+
           $.ajax({
               type: "POST",
               url: "/ajax/check-my-labels",
-              data: {my_datas: my_spreadsheet.getData()},
+              data: {my_datas: my_spreadsheet.getData(), sending_type: sending_type, sending_reference: sending_reference, tnt_account:tnt_account},
               success: function(response) {
                 var $custom_modal = $body.find('#custom-modal');
 

@@ -1,15 +1,35 @@
 
-{% if labels is empty %}
-<div class='row'>
-  <div class="col-12">
-    <div class="alert alert-warning" role="alert">
-      Votre tableau ne contient aucune adresse valable !
+{% for error_message in error_messages %}
+  <div class='row'>
+    <div class="col-12">
+      <div class="alert alert-warning" role="alert">
+         {{ error_message }}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% if error_messages is empty %}
+<div class="card mb-2">
+    <div class="card-header text-white bg-info">
+      Paramètres TNT
+    </div>
+
+    <div class="card-body text-center pb-0">
+      <div class="form-row">
+        <div class="form-group col-4 mb-0">
+          <p><b>Compte Expedio :</b> {{ tnt_account }}</p>
+        </div>
+      <div class="form-group col-4 mb-0">
+        <p><b>Réference envoi :</b> {{ sending_reference }}</p>
+      </div>
+      <div class="form-group col-4 mb-0">
+        <p><b>Type d'envoi :</b> {{ sending_type }}</p>
+      </div>
     </div>
   </div>
 </div>
-
-{% else %}
-
+<button type="button" id='print-my-labels' class="btn btn-success btn-sm float-right mb-2"> <i class="fa-solid fa-print mr-1"></i> Lancer l'impression</button>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -46,4 +66,6 @@
       {% endfor %}
   </tbody>
 </table>
+
+<button type="button" id='print-my-labels' class="btn btn-success btn-sm float-right"> <i class="fa-solid fa-print mr-1"></i> Lancer l'impression</button>
 {% endif %}

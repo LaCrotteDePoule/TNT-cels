@@ -25,22 +25,48 @@ class HomeController extends AbstractController
      */
     public function checkMyLabels(Request $request, ParcelTNTService $parcel_tnt_service)
     {
-      $my_datas = $request->request->get('my_datas');
+      $error_messages     = array();
+
+      $my_datas           = $request->request->get('my_datas');
+      $tnt_account        = $request->request->get('tnt_account');
+      $sending_type       = $request->request->get('sending_type');
+      $sending_reference  = $request->request->get('sending_reference');
 
       //le but est de construire un tableau d'objet
       $labels = $parcel_tnt_service->transformSpreadsheetToArray($my_datas);
 
+      if($sending_reference == ''){
+          $error_messages[] = "Veuiller renseigner une référence d'envoi !";
+      }
+
+      if(empty($labels)){
+          $error_messages[] = 'Votre tableau ne contient aucune adresse valable !';
+      }
+
       return $this->render('labels_resume.html.twig', [
-        'labels' => $labels
+        'labels'            => $labels,
+        'tnt_account'       => $tnt_account,
+        'sending_type'      => $sending_type,
+        'sending_reference' => $sending_reference,
+        'error_messages'    => $error_messages
       ]);
     }
 
     /**
      * @Route("/ajax/print-my-labels", name="print-my-labels",)
      */
-    public function printMyLabels(Request $request)
+    public function printMyLabels(Request $request, ParcelTNTService $parcel_tnt_service)
     {
 
-      return $this->render('labels_resume.html.twig');
+      $my_datas           = $request->request->get('my_datas');
+      $tnt_account        = $request->request->get('tnt_account');
+      $sending_type       = $request->request->get('sending_type');
+      $sending_reference  = $request->request->get('sending_reference');
+
+      //le but est de construire un tableau d'objet
+      $labels = $parcel_tnt_service->transformSpreadsheetToArray($my_datas, $tnt_account, $sending_type, $sending_reference);
+      $parcel_tnt_service->printMyLabels();
+
+      return $this->render('labels_printed.html.twig');
     }
 }
