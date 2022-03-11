@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Service\ParcelTNTService;
 
 class HomeController extends AbstractController
 {
@@ -22,21 +23,24 @@ class HomeController extends AbstractController
     /**
      * @Route("/ajax/check-my-labels", name="check-my-labels",)
      */
-    public function checkMyLabels(Request $request)
+    public function checkMyLabels(Request $request, ParcelTNTService $parcel_tnt_service)
     {
-      $my_data = $request->request->get('my_datas');
+      $my_datas = $request->request->get('my_datas');
 
       //le but est de construire un tableau d'objet
-      $result  = array();
+      $labels = $parcel_tnt_service->transformSpreadsheetToArray($my_datas);
 
-      //$row[0] = Raison sociale
+      return $this->render('labels_resume.html.twig', [
+        'labels' => $labels
+      ]);
+    }
 
+    /**
+     * @Route("/ajax/print-my-labels", name="print-my-labels",)
+     */
+    public function printMyLabels(Request $request)
+    {
 
-      //Pour chaque ligne de tableau
-      foreach ($my_data as $row) {
-          //création de l'entité
-      }
-
-      return $this->render('layout.html.twig');
+      return $this->render('labels_resume.html.twig');
     }
 }

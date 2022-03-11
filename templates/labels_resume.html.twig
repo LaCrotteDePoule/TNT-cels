@@ -1,0 +1,49 @@
+
+{% if labels is empty %}
+<div class='row'>
+  <div class="col-12">
+    <div class="alert alert-warning" role="alert">
+      Votre tableau ne contient aucune adresse valable !
+    </div>
+  </div>
+</div>
+
+{% else %}
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Raison Sociale</th>
+      <th scope="col">Prénom Nom</th>
+      <th scope="col">Adresse 1</th>
+      <th scope="col">Adresse 2</th>
+      <th scope="col">Adresse 3 / Tél.</th>
+      <th scope="col">Code Postal</th>
+      <th scope="col">Ville</th>
+      <th scope="col">Nb. de carton</th>
+      <th scope="col">Poids Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% set i = 0 %}
+
+      {% for label in labels %}
+        {% set i = i + 1 %}
+        <tr>
+          <th scope="row">{{ i }}</th>
+          <td>{{ label.getCompany() }}</td>
+          <td>{{ label.getName() }}</td>
+          <td>{{ label.getAddress1() }}</td>
+          <td>{{ label.getAddress2() }}</td>
+          <td>{{ label.getAddress3Phone() }}</td>
+          <td>{{ label.getPostalCode() }}</td>
+          <td>{{ label.getCity() }}</td>
+          <td>{{ label.getBoxNumber() }}</td>
+          <td>{{ label.getTotalWeight() }}</td>
+        </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endif %}

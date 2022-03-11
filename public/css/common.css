@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap');
+
+body{
+  font-family: 'Fredoka', sans-serif;
+  background-color: #F5F5F5;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.help-me{
+    transition: transform 250ms;
+}
+
+.help-me:hover{
+    transform: translateY(-10px);
+    color : #339af0
+}
+
+.tnt-print-logo{
+  max-height: 50px;
+}

@@ -4,6 +4,7 @@ var common = (function() {
     // Private variables and functions
     var $body = $('body');
 
+
     var dislayExcelGrid = function() {
       var data = [];
 
@@ -69,19 +70,31 @@ var common = (function() {
               url: "/ajax/check-my-labels",
               data: {my_datas: my_spreadsheet.getData()},
               success: function(response) {
+                var $custom_modal = $body.find('#custom-modal');
+
                 $custom_modal.modal('show');
-                $custom_modal.find('.modal-dialog').addClass('modal-xxl');
-                $custom_modal.find('.modal-title').text('Catalogues');
-                //$custom_modal.find('.modal-body').html(response);
+                $custom_modal.find('.modal-dialog').addClass('modal-xl');
+                $custom_modal.find('.modal-title').text('Résumé avant impression');
+                $custom_modal.find('.modal-body').html(response);
               }
           });
       });
     }
 
+    var helpMe = function(my_spreadsheet){
+      $body.find('.help-me').off('click').on('click',function(){
+        var $custom_modal = $body.find('#custom-modal');
+
+        $custom_modal.modal('show');
+        $custom_modal.find('.modal-dialog').addClass('modal-xl');
+        $custom_modal.find('.modal-title').text('Information');
+        $custom_modal.find('.modal-body').html('');
+      });
+    }
 
     var listener = function() {
         dislayExcelGrid();
-
+        helpMe();
     };
 
     return {
