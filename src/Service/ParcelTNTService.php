@@ -72,6 +72,44 @@ class ParcelTNTService
           }
       }
 
+      /*
+  	  *	@param	tnt_id					<string:8>		[obligatoire]	customer account
+  	  *	@param	expedition_type			<string:1>		[obligatoire]	(C : colis, L : liaison, S : livraison samedi)
+  	  *	@param	weight					<string:6>		[obligatoire]	XXXX.X (Ex : 00002.5 for 2.5 kg)
+  	  *	@param	ref_recipient			<string:15>		[obligatoire]	Ref destinataire N° Client ou autre mais unique par expédition
+  	  *	@param	declared_value			<string:9>						XXXXXXXXX (Ex : 000005000 for 5000)
+  	  *	@param	quantity				<int:2>			[obligatoire]	number of parcel (between 1 & 99)
+  	  *	@param	code_recipient			<string:10>		[obligatoire]	recipient search code
+  	  *	@param	company					<string:32>		[obligatoire]	Nom ou raison social
+  	  *	@param	address_1				<string:32>		[obligatoire]	Adresse 1
+  	  *	@param	address_2				<string:32>						Adresse 2
+  	  *	@param	code_postal				<string:10>		[obligatoire]	Code Postal
+  	  *	@param	town					<string:27>		[obligatoire]	Ville
+  	  *	@param	code_country			<string:2>		[obligatoire]	Norme ISO
+  	  *	@param	product					<string:2>		[obligatoire]	(J : Express 13:00, A : Express 09:00, N : Express 08:00, JP : Express Payment 13:00, AP : Express Payment 09:00, ...)
+  	  *	@param	instruction1			<string:30>						instruction text for shipping
+  	  *	@param	instruction2			<string:30>						instruction text for shipping
+  	  *	@param	zone					<string:25>						user zone
+  	  *	@param	back_payment_value		<string:12>						XXXXXXXXXXXX.XX (Ex : 000015000.75 for 15000.75€)
+  	  *	@param	date_expedition			<date:8>						Date expédition : SSAAMMJJ
+  	  *	@param	name_expeditor			<string:32>		[obligatoire]	Expeditor name (if expeditor = customer then optional)
+  	  *	@param	adr1_expeditor			<string:32>		[obligatoire]	Expeditor Adresse 1 (if expeditor = customer then optional)
+  	  *	@param	adr2_expeditor			<string:32>		[obligatoire]	Expeditor Adresse 2 (if expeditor = customer then optional)
+  	  *	@param	cp_expeditor			<string:10>		[obligatoire]	Expeditor Code Postal (if expeditor = customer then optional)
+  	  *	@param	city_expeditor			<string:27>		[obligatoire]	Expeditor City (if expeditor = customer then optional)
+  	  *	@param	country_expeditor		<string:2>		[obligatoire]	Norme ISO (if expeditor = customer then optional)
+  	  *	@param	email					<string:59>						Mail. Notification if shipping type D or Z
+  	  *
+  	  */
+
+      $csv_labels = fopen('tmp/file.csv', 'w');
+
+        foreach ($labels as $label) {
+            fputcsv($csv_labels, $label);
+        }
+
+        fclose($csv_labels);
+
       return $labels;
     }
 }
