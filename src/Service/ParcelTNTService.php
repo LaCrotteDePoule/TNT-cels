@@ -52,63 +52,67 @@ class ParcelTNTService
       //$row[6] = ville
       //$row[7] = Nb carton
       //$row[8] = Poids total
+      $i = 1;
+
+      // if(empty($this->tnt_id))								{ $error[] = "tnt_id";			}
+  		// elseif(   (strtolower($this->expedition_type) != "c")
+  		// 	   && (strtolower($this->expedition_type) != "l")
+  		// 	   && (strtolower($this->expedition_type) != "s") )			{ $error[] = "expedition_type";	}
+  		// elseif(empty($this->weight))							{ $error[] = "weight";			}
+  		// elseif(empty($this->ref_recipient))						{ $error[] = "ref_recipient";	}
+  		// elseif(empty($this->quantity))							{ $error[] = "quantity";		}
+  		// elseif(empty($this->code_recipient))					{ $error[] = "code_recipient";	}
+  		// elseif(empty($this->company))							{ $error[] = "company";			}
+  		// elseif(empty($this->address_1))							{ $error[] = "address_1";		}
+  		// elseif(empty($this->code_postal))						{ $error[] = "code_postal";		}
+  		// elseif(empty($this->town))								{ $error[] = "town";			}
+  		// elseif(empty($this->code_country))						{ $error[] = "code_country";	}
+  		// elseif(empty($this->product))							{ $error[] = "product";			};
 
       //Pour chaque ligne de tableau
       foreach ($my_datas as $row) {
           //création de l'entité - si le code postal est renseigné
           if($row[5] != ''){
             $label = new Label();
+            $label->setTntAccount($tnt_account);
+            $label->setSendingType($sending_type);
+            $label->setTotalWeight($row[8]);
+            $label->setSendingReference($sending_reference);
+            $label->setDeclaredValue('');
+            $label->setBoxNumber($row[7]);
+            $label->setCodeRecipient($i);
             $label->setCompany($row[0]);
-            $label->setName($row[1]);
             $label->setAddress1($row[2]);
             $label->setAddress2($row[3]);
-            $label->setAddress3Phone($row[4]);
             $label->setPostalCode($row[5]);
             $label->setCity($row[6]);
-            $label->setBoxNumber($row[7]);
-            $label->setTotalWeight($row[8]);
+            $label->setCodeCountry('FR');
+            $label->setProduct('J');
+            $label->setName($row[1]);
+            $label->setAddress3Phone($row[4]);
+            $label->setZone('');
+            $label->setBackPaymentValue('');
+            $label->setDateExpedition('');
+            $label->setNameExpeditor('');
+            $label->setAdr1Expeditor('');
+            $label->setAdr2Expeditor('');
+            $label->setCpExpeditor('');
+            $label->setCityExpeditor('');
+            $label->setCountryExpeditor('');
+            $label->setEmail('');
 
             $labels[] = $label;
+            $i++;
           }
       }
-
-      /*
-  	  *	@param	tnt_id					<string:8>		[obligatoire]	customer account
-  	  *	@param	expedition_type			<string:1>		[obligatoire]	(C : colis, L : liaison, S : livraison samedi)
-  	  *	@param	weight					<string:6>		[obligatoire]	XXXX.X (Ex : 00002.5 for 2.5 kg)
-  	  *	@param	ref_recipient			<string:15>		[obligatoire]	Ref destinataire N° Client ou autre mais unique par expédition
-  	  *	@param	declared_value			<string:9>						XXXXXXXXX (Ex : 000005000 for 5000)
-  	  *	@param	quantity				<int:2>			[obligatoire]	number of parcel (between 1 & 99)
-  	  *	@param	code_recipient			<string:10>		[obligatoire]	recipient search code
-  	  *	@param	company					<string:32>		[obligatoire]	Nom ou raison social
-  	  *	@param	address_1				<string:32>		[obligatoire]	Adresse 1
-  	  *	@param	address_2				<string:32>						Adresse 2
-  	  *	@param	code_postal				<string:10>		[obligatoire]	Code Postal
-  	  *	@param	town					<string:27>		[obligatoire]	Ville
-  	  *	@param	code_country			<string:2>		[obligatoire]	Norme ISO
-  	  *	@param	product					<string:2>		[obligatoire]	(J : Express 13:00, A : Express 09:00, N : Express 08:00, JP : Express Payment 13:00, AP : Express Payment 09:00, ...)
-  	  *	@param	instruction1			<string:30>						instruction text for shipping
-  	  *	@param	instruction2			<string:30>						instruction text for shipping
-  	  *	@param	zone					<string:25>						user zone
-  	  *	@param	back_payment_value		<string:12>						XXXXXXXXXXXX.XX (Ex : 000015000.75 for 15000.75€)
-  	  *	@param	date_expedition			<date:8>						Date expédition : SSAAMMJJ
-  	  *	@param	name_expeditor			<string:32>		[obligatoire]	Expeditor name (if expeditor = customer then optional)
-  	  *	@param	adr1_expeditor			<string:32>		[obligatoire]	Expeditor Adresse 1 (if expeditor = customer then optional)
-  	  *	@param	adr2_expeditor			<string:32>		[obligatoire]	Expeditor Adresse 2 (if expeditor = customer then optional)
-  	  *	@param	cp_expeditor			<string:10>		[obligatoire]	Expeditor Code Postal (if expeditor = customer then optional)
-  	  *	@param	city_expeditor			<string:27>		[obligatoire]	Expeditor City (if expeditor = customer then optional)
-  	  *	@param	country_expeditor		<string:2>		[obligatoire]	Norme ISO (if expeditor = customer then optional)
-  	  *	@param	email					<string:59>						Mail. Notification if shipping type D or Z
-  	  *
-  	  */
-
+      dd($labels);
       $csv_labels = fopen('tmp/file.csv', 'w');
 
-        foreach ($labels as $label) {
-            fputcsv($csv_labels, $label);
-        }
+      foreach ($labels as $label) {
+    			fputs($csv_labels, $label->getTntAccount().$label->getSendingType().$label->getTotalWeight().$label->getSendingReference().$label->getDeclaredValue().$label->getBoxNumber().$label->getCodeRecipient().$label->getCompany().$label->getAddress1().$label->getAddress2().$label->getPostalCode().$label->getCity().$label->getCodeCountry().$label->getProduct().$label->getName().$label->getAddress3Phone().$label->getZone().$label->getBackPaymentValue().$label->getDateExpedition().$label->getNameExpeditor().$label->getAdr1Expeditor().$label->getAdr2Expeditor().$label->getCpExpeditor().$label>getCityExpeditor().$label->getCountryExpeditor().$label->getEmail()."\r\n");
+      }
 
-        fclose($csv_labels);
+      fclose($csv_labels);
 
       return $labels;
     }

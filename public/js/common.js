@@ -80,9 +80,24 @@ var common = (function() {
                 $custom_modal.find('.modal-dialog').addClass('modal-xl');
                 $custom_modal.find('.modal-title').text('Résumé avant impression');
                 $custom_modal.find('.modal-body').html(response);
+
+                printMyLabels($custom_modal, my_spreadsheet.getData(), sending_type, sending_reference, tnt_account);
               }
           });
       });
+    }
+
+    var printMyLabels = function($custom_modal, my_spreadsheet_datas, sending_type, sending_reference, tnt_account){
+      $custom_modal.find('.print-my-labels').off('click').on('click',function(){
+          $.ajax({
+              type: "POST",
+              url: "/ajax/print-my-labels",
+              data: {my_datas: my_spreadsheet_datas, sending_type: sending_type, sending_reference: sending_reference, tnt_account:tnt_account},
+              success: function(response) {
+
+              }
+          });
+        });
     }
 
     var helpMe = function(my_spreadsheet){

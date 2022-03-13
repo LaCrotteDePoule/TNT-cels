@@ -65,7 +65,7 @@ class HomeController extends AbstractController
 
       //le but est de construire un tableau d'objet
       $labels = $parcel_tnt_service->transformSpreadsheetToArray($my_datas, $tnt_account, $sending_type, $sending_reference);
-      $parcel_tnt_service->printMyLabels();
+      $parcel_tnt_service->printMyLabels($my_datas, $tnt_account, $sending_type, $sending_reference);
 
       return $this->render('labels_printed.html.twig');
     }
