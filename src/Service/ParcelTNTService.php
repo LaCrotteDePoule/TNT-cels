@@ -22,16 +22,16 @@ class ParcelTNTService
       foreach ($my_datas as $row) {
           //création de l'entité - si le code postal est renseigné
           if($row[5] != ''){
-            $label = new Label();
-            $label->setCompany($row[0]);
-            $label->setName($row[1]);
-            $label->setAddress1($row[2]);
-            $label->setAddress2($row[3]);
-            $label->setAddress3Phone($row[4]);
-            $label->setPostalCode($row[5]);
-            $label->setCity($row[6]);
-            $label->setBoxNumber($row[7]);
-            $label->setTotalWeight($row[8]);
+            $label                    = array();
+            $label['Company']         = $row[0];
+            $label['Name']            = $row[1];
+            $label['Address1']        = $row[2];
+            $label['Address2']        = $row[3];
+            $label['Address3Phone']   = $row[4];
+            $label['PostalCode']      = $row[5];
+            $label['City']            = $row[6];
+            $label['BoxNumber']       = $row[7];
+            $label['TotalWeight']     = $row[8];
 
             $labels[] = $label;
           }
@@ -105,10 +105,11 @@ class ParcelTNTService
             $i++;
           }
       }
-      dd($labels);
+
       $csv_labels = fopen('tmp/file.csv', 'w');
 
       foreach ($labels as $label) {
+        dd($label);
     			fputs($csv_labels, $label->getTntAccount().$label->getSendingType().$label->getTotalWeight().$label->getSendingReference().$label->getDeclaredValue().$label->getBoxNumber().$label->getCodeRecipient().$label->getCompany().$label->getAddress1().$label->getAddress2().$label->getPostalCode().$label->getCity().$label->getCodeCountry().$label->getProduct().$label->getName().$label->getAddress3Phone().$label->getZone().$label->getBackPaymentValue().$label->getDateExpedition().$label->getNameExpeditor().$label->getAdr1Expeditor().$label->getAdr2Expeditor().$label->getCpExpeditor().$label>getCityExpeditor().$label->getCountryExpeditor().$label->getEmail()."\r\n");
       }
 

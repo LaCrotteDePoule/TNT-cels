@@ -29,7 +29,7 @@
     </div>
   </div>
 </div>
-<button type="button" class='print-my-labels' class="btn btn-success btn-sm float-right mb-2"> <i class="fa-solid fa-print mr-1"></i> Lancer l'impression</button>
+<button type="button" class="btn btn-success btn-sm float-right mb-2 print-my-labels"> <i class="fa-solid fa-print mr-1"></i> Lancer l'impression</button>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -53,19 +53,19 @@
         {% set i = i + 1 %}
         <tr>
           <th scope="row">{{ i }}</th>
-          <td>{{ label.getCompany() }}</td>
-          <td>{{ label.getName() }}</td>
-          <td>{{ label.getAddress1() }}</td>
-          <td>{{ label.getAddress2() }}</td>
-          <td>{{ label.getAddress3Phone() }}</td>
-          <td>{{ label.getPostalCode() }}</td>
-          <td>{{ label.getCity() }}</td>
-          <td>{{ label.getBoxNumber() }}</td>
-          <td>{{ label.getTotalWeight() }}</td>
+          <td>{{ label.Company }}</td>
+          <td>{{ label.Name }}</td>
+          <td>{{ label.Address1 }}</td>
+          <td>{{ label.Address2 }}</td>
+          <td>{{ label.Address3Phone }}</td>
+          <td>{{ label.PostalCode }}</td>
+          <td>{{ label.City }}</td>
+          <td>{{ label.BoxNumber }}</td>
+          <td>{{ label.TotalWeight }}</td>
         </tr>
       {% endfor %}
   </tbody>
 </table>
 
-<button type="button" class='print-my-labels' class="btn btn-success btn-sm float-right"> <i class="fa-solid fa-print mr-1"></i> Lancer l'impression</button>
+<button type="button" class="btn btn-success btn-sm float-right print-my-labels"> <i class="fa-solid fa-print mr-1"></i> Lancer l'impression</button>
 {% endif %}
