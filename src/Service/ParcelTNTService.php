@@ -74,6 +74,7 @@ class ParcelTNTService
           //création de l'entité - si le code postal est renseigné
           if($row[5] != ''){
             $label = new Label();
+
             $label->setTntAccount($tnt_account);
             $label->setSendingType($sending_type);
             $label->setTotalWeight($row[8]);
@@ -101,17 +102,47 @@ class ParcelTNTService
             $label->setCountryExpeditor('');
             $label->setEmail('');
 
-            $labels[] = $label;
+            $label_array = array();
+
+            $label_array[]  = $label->getTntAccount($tnt_account);
+            $label_array[]  = $label->getSendingType($sending_type);
+            $label_array[]  = $label->getTotalWeight($row[8]);
+            $label_array[]  = $label->getSendingReference($sending_reference);
+            $label_array[]  = $label->getDeclaredValue('');
+            $label_array[]  = $label->getBoxNumber($row[7]);
+            $label_array[]  = $label->getCodeRecipient($i);
+            $label_array[]  = $label->getCompany($row[0]);
+            $label_array[]  = $label->getAddress1($row[2]);
+            $label_array[]  = $label->getAddress2($row[3]);
+            $label_array[]  = $label->getPostalCode($row[5]);
+            $label_array[]  = $label->getCity($row[6]);
+            $label_array[]  = $label->getCodeCountry('FR');
+            $label_array[]  = $label->getProduct('J');
+            $label_array[]  = $label->getName($row[1]);
+            $label_array[]  = $label->getAddress3Phone($row[4]);
+            $label_array[]  = $label->getZone('');
+            $label_array[]  = $label->getBackPaymentValue('');
+            $label_array[]  = $label->getDateExpedition('');
+            $label_array[]  = $label->getNameExpeditor('');
+            $label_array[]  = $label->getAdr1Expeditor('');
+            $label_array[]  = $label->getAdr2Expeditor('');
+            $label_array[]  = $label->getCpExpeditor('');
+            $label_array[]  = $label->getCityExpeditor('');
+            $label_array[]  = $label->getCountryExpeditor('');
+            $label_array[]  = $label->getEmail('');
+
+            $labels[] = $label_array;
             $i++;
           }
       }
 
-      $csv_labels = fopen('tmp/file.csv', 'w');
+      $csv_labels = fopen('tmp/file.TXT', 'w');
 
       foreach ($labels as $label) {
-        dd($label);
-    			fputs($csv_labels, $label->getTntAccount().$label->getSendingType().$label->getTotalWeight().$label->getSendingReference().$label->getDeclaredValue().$label->getBoxNumber().$label->getCodeRecipient().$label->getCompany().$label->getAddress1().$label->getAddress2().$label->getPostalCode().$label->getCity().$label->getCodeCountry().$label->getProduct().$label->getName().$label->getAddress3Phone().$label->getZone().$label->getBackPaymentValue().$label->getDateExpedition().$label->getNameExpeditor().$label->getAdr1Expeditor().$label->getAdr2Expeditor().$label->getCpExpeditor().$label>getCityExpeditor().$label->getCountryExpeditor().$label->getEmail()."\r\n");
+    			fputcsv($csv_labels, $label);
       }
+
+      touch(str_replace("TXT", "TEM", $csv_labels));
 
       fclose($csv_labels);
 
